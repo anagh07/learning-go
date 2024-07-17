@@ -47,5 +47,6 @@ func (job *TaxInclPriceJob) Process() {
 		result[fmt.Sprintf("%.2f", inputPrice)] = priceAfterTax
 	}
 
+	fileutil.WriteJson(fmt.Sprintf("result_%.0f.json", 100*job.TaxRate), result)
 	fmt.Println(result)
 }

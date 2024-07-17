@@ -2,6 +2,7 @@ package fileutil
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
 	"os"
 )
@@ -28,4 +29,20 @@ func ReadLinesFromTextFile(path string) ([]string, error) {
 
 	file.Close()
 	return lines, nil
+}
+
+func WriteJson(path string, data map[string]string) error {
+	file, err := os.Create(path)
+
+	if err != nil {
+		return errors.New("Failed to create json file")
+	}
+
+	encoder := json.NewEncoder(file)
+	err = encoder.Encode(data)
+
+	if err != nil {
+		return errors.New("Failed to write/encode to json")
+	}
+	return nil
 }
