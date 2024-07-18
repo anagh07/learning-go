@@ -7,8 +7,13 @@ import (
 	"os"
 )
 
-func ReadLinesFromTextFile(path string) ([]string, error) {
-	file, err := os.Open(path)
+type FileManager struct {
+	InputFilePath  string
+	OutPutFilePath string
+}
+
+func (fileManager *FileManager) ReadLinesFromTextFile() ([]string, error) {
+	file, err := os.Open(fileManager.InputFilePath)
 
 	if err != nil {
 		return nil, errors.New("Error opening file")
@@ -31,8 +36,8 @@ func ReadLinesFromTextFile(path string) ([]string, error) {
 	return lines, nil
 }
 
-func WriteJson(path string, data map[string]string) error {
-	file, err := os.Create(path)
+func (fileManager *FileManager) WriteResult(data any) error {
+	file, err := os.Create(fileManager.OutPutFilePath)
 
 	if err != nil {
 		return errors.New("Failed to create json file")
@@ -45,4 +50,11 @@ func WriteJson(path string, data map[string]string) error {
 		return errors.New("Failed to write/encode to json")
 	}
 	return nil
+}
+
+func New(inputFilePath, outputFilePath string) FileManager {
+	return FileManager{
+		InputFilePath:  inputFilePath,
+		OutPutFilePath: outputFilePath,
+	}
 }
