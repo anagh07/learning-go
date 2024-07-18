@@ -15,6 +15,13 @@ func main() {
 		outputFilePath := fmt.Sprintf("result_%.0f.json", taxrate*100)
 		fileManager := fileutil.New(inputFilePath, outputFilePath)
 		job := prices.NewTaxInclPriceJob(fileManager, taxrate)
-		job.Process()
+		// cmd := cmdmanager.New()
+		// job := prices.NewTaxInclPriceJob(cmd, taxrate)
+		err := job.Process()
+		if err != nil {
+			fmt.Println("error completing job")
+			fmt.Println(err.Error())
+			return
+		}
 	}
 }
